@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(BaseException.class)
-	public final ResponseEntity<BaseResponse> handleRuntimeException(RuntimeException ex) {
+	public final ResponseEntity<BaseResponse> handleRuntimeException(BaseException ex) {
 		logger.error("an exception is thrown!", ex);
 		return ResponseEntity.badRequest()
 				.body(BaseResponse.notSuccess(ex.getMessage()));

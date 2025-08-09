@@ -4,11 +4,13 @@ import free.task.foodfinder.configuration.EnvironmentVariables;
 import free.task.foodfinder.exception.BaseException;
 import free.task.foodfinder.model.GeoapifySearchResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class GeoapifyService {
@@ -24,7 +26,8 @@ public class GeoapifyService {
 		GeoapifySearchResponse geoapifySearchResponse;
 		try {
 			geoapifySearchResponse = restTemplate.getForObject(url, GeoapifySearchResponse.class);
-		} catch (RestClientException e) {
+		} catch (RestClientException exception) {
+			log.error("Geoapify exception is: {}", exception.getMessage());
 			throw new BaseException("Something bad happened while connecting to Geoapify!");
 		}
 		return geoapifySearchResponse;
