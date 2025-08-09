@@ -27,8 +27,8 @@ public class PlaceController {
 	@ApiResponse(responseCode = "200", description = "success")
 	@ApiResponse(responseCode = "4xx", description = "any missing data or if something goes wrong!")
 	public ResponseEntity<SearchResponse> getPlaceDetails(
-			@Parameter(example = "Tehran", description = "city name") @RequestParam String city,
-			@Parameter(example = "Iran", description = "country name") @RequestParam String country
+			@Parameter(example = "Tehran", description = "city name") @RequestParam("city") String city,
+			@Parameter(example = "Iran", description = "country name") @RequestParam("country") String country
 	) {
 		log.info("Get place details for city {} and country {}", city, country);
 		return ResponseEntity.ok(placeService.getPlaceDetails(city, country));

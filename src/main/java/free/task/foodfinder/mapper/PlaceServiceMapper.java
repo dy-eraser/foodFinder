@@ -1,5 +1,6 @@
 package free.task.foodfinder.mapper;
 
+import free.task.foodfinder.entity.PlaceDetail;
 import free.task.foodfinder.model.Feature;
 import free.task.foodfinder.model.GeoapifySearchResponse;
 import free.task.foodfinder.model.SearchResponse;
@@ -35,5 +36,7 @@ public interface PlaceServiceMapper {
 		return toSearchResponse(geoapifySearchResponse.getFeatures()
 				.get(0));
 	}
+
+	PlaceDetail toPlaceDetail(SearchResponse searchResponse);
 
 }
