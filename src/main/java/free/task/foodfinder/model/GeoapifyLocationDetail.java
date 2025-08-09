@@ -4,17 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class Properties {
+public class GeoapifyLocationDetail {
+
+	private String name;
 
 	private String city;
 
-	private String province;
-
 	private String country;
-
-	private String county;
-
-	private String district;
 
 	@JsonProperty("lat")
 	private Double latitude;
@@ -25,4 +21,18 @@ public class Properties {
 	@JsonProperty("place_id")
 	private String placeId;
 
+	private BoundingBox bbox;
+
+	@Data
+	public static class BoundingBox {
+
+		private double lon1;
+
+		private double lat1;
+
+		private double lon2;
+
+		private double lat2;
+
+	}
 }

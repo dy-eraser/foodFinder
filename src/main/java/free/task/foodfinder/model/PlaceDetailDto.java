@@ -7,15 +7,11 @@ import lombok.Data;
 @Data
 public class PlaceDetailDto {
 
+	private String name;
+
 	private String city;
 
-	private String province;
-
 	private String country;
-
-	private String county;
-
-	private String district;
 
 	private Double latitude;
 

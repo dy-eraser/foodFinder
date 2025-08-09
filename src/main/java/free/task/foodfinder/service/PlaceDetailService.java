@@ -5,10 +5,12 @@ import free.task.foodfinder.exception.PlaceNotFoundException;
 import free.task.foodfinder.mapper.ServiceMapper;
 import free.task.foodfinder.repository.PlaceDetailRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PlaceDetailService {
@@ -19,7 +21,7 @@ public class PlaceDetailService {
 
 	private final PlaceDetailRepository placeDetailRepository;
 
-	@Cacheable(cacheManager = "inMemoryCacheManager", cacheNames = "places", key = "#country-#city")
+	@Cacheable(cacheManager = "inMemoryCacheManager", cacheNames = "places", key = "#country + '_' + #city")
 	public PlaceDetail findByCountryAndCity(String country, String city) {
 		return placeDetailRepository.findPlaceDetailByCountryAndCity(country, city)
 				.orElseGet(() -> {
@@ -32,11 +34,19 @@ public class PlaceDetailService {
 				);
 	}
 
-	public PlaceDetail save(PlaceDetail placeDetail) {
+	public void findFoodNearby(PlaceDetail placeDetail) {
+		if (placeDetail.getBbox() != null && !placeDetail.getBbox().isEmpty()) {
+			geoapifyService.getNearbyCatering(placeDetail.getBbox());
+		} else {
+			geoapifyService.getNearbyCatering(placeDetail.getPlaceId());
+		}
+	}
+
+	private PlaceDetail save(PlaceDetail placeDetail) {
 		try {
 			return placeDetailRepository.save(placeDetail);
-		} catch (Exception ignored) {
-
+		} catch (Exception exception) {
+			log.error("Exception to save placeDetail: {}", exception.getMessage());
 		}
 		return placeDetail;
 	}

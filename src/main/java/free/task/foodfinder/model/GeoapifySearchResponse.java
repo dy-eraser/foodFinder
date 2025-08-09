@@ -7,8 +7,6 @@ import lombok.Data;
 @Data
 public class GeoapifySearchResponse {
 
-    private String type;
-
-    private List<Feature> features;
+	private List<GeoapifyLocationDetail> results;
 
 }

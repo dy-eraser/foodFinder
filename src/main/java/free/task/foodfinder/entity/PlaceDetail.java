@@ -22,17 +22,13 @@ public class PlaceDetail {
 	@Column(nullable = false, updatable = false)
 	private Long id;
 
+	private String name;
+
 	@Column(nullable = false)
 	private String city;
 
-	private String province;
-
 	@Column(nullable = false)
 	private String country;
-
-	private String county;
-
-	private String district;
 
 	private Double latitude;
 
