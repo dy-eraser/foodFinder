@@ -1,4 +1,4 @@
-package free.task.foodFinder;
+package free.task.foodfinder;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

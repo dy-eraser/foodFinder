@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>free.task</groupId>
-	<artifactId>foodFinder</artifactId>
+	<artifactId>foodfinder</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>foodFinder</name>
 	<description>This is a demo project to find food!</description>

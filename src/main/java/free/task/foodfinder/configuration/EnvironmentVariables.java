@@ -1,4 +1,4 @@
-package free.task.foodFinder.configuration;
+package free.task.foodfinder.configuration;
 
 import lombok.RequiredArgsConstructor;
 
