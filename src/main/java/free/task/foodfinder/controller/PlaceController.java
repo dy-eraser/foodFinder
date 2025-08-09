@@ -1,7 +1,9 @@
 package free.task.foodfinder.controller;
 
-import free.task.foodfinder.model.GeoResponse;
+import free.task.foodfinder.model.GeoapifySearchResponse;
 import free.task.foodfinder.service.PlaceService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -18,7 +20,10 @@ public class PlaceController {
 	private final PlaceService placeService;
 
 	@GetMapping("/place-details")
-	public ResponseEntity<GeoResponse> getPlaceDetails(@RequestParam String city, @RequestParam String country) {
+	@Operation(summary = "Simple search details", description = "This method retrieves data from simple search on Geoapify")
+	@ApiResponse(responseCode = "200", description = "success")
+	@ApiResponse(responseCode = "4xx", description = "any missing data or if something goes wrong!")
+	public ResponseEntity<GeoapifySearchResponse> getPlaceDetails(@RequestParam String city, @RequestParam String country) {
 		return ResponseEntity.ok(placeService.getPlaceDetails(city, country));
 	}
 

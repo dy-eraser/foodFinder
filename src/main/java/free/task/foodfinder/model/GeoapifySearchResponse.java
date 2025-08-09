@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class GeoResponse {
+public class GeoapifySearchResponse {
 
     private String type;
 

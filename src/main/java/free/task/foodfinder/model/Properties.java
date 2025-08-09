@@ -1,5 +1,6 @@
 package free.task.foodfinder.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
@@ -15,10 +16,13 @@ public class Properties {
 
 	private String district;
 
-	private Double lat;
+	@JsonProperty("lat")
+	private Double latitude;
 
-	private Double lon;
+	@JsonProperty("lon")
+	private Double longitude;
 
-	private String place_id;
+	@JsonProperty("place_id")
+	private String placeId;
 
 }
