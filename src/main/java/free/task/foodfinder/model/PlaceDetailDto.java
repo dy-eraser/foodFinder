@@ -3,11 +3,9 @@ package free.task.foodfinder.model;
 import java.util.List;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class SearchResponse extends BaseResponse {
+public class PlaceDetailDto {
 
 	private String city;
 

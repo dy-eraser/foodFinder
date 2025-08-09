@@ -23,4 +23,8 @@ public class EnvironmentVariables {
 		return env.getRequiredProperty("geoapify.simple.search.url");
 	}
 
+	public String getGeoapifyPlaceDetailsUrl() {
+		return env.getRequiredProperty("geoapify.place.details.url");
+	}
+
 }

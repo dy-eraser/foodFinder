@@ -3,7 +3,7 @@ package free.task.foodfinder.mapper;
 import free.task.foodfinder.entity.PlaceDetail;
 import free.task.foodfinder.model.Feature;
 import free.task.foodfinder.model.GeoapifySearchResponse;
-import free.task.foodfinder.model.SearchResponse;
+import free.task.foodfinder.model.PlaceDetailDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -21,22 +21,18 @@ public interface PlaceServiceMapper {
 	@Mapping(target = "bbox", source = "feature.bbox")
 	@Mapping(target = "success", constant = "true")
 	@Mapping(target = "message", constant = "SUCCESS")
-	SearchResponse toSearchResponse(Feature feature);
+	PlaceDetailDto toPlaceDetailDto(Feature feature);
 
-	@Mapping(target = "success", constant = "true")
-	@Mapping(target = "message", source = "message")
-	SearchResponse toEmptySearchResponse(String message);
-
-	default SearchResponse toSearchResponse(GeoapifySearchResponse geoapifySearchResponse) {
+	default PlaceDetailDto toPlaceDetailDto(GeoapifySearchResponse geoapifySearchResponse) {
 		if (geoapifySearchResponse == null || geoapifySearchResponse.getFeatures() == null
 				|| geoapifySearchResponse.getFeatures()
 				.isEmpty()) {
-			return toEmptySearchResponse("No search results found");
+			return null;
 		}
-		return toSearchResponse(geoapifySearchResponse.getFeatures()
+		return toPlaceDetailDto(geoapifySearchResponse.getFeatures()
 				.get(0));
 	}
 
-	PlaceDetail toPlaceDetail(SearchResponse searchResponse);
+	PlaceDetail toPlaceDetail(PlaceDetailDto searchResponse);
 
 }
