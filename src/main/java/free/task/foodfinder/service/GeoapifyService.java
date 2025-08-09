@@ -6,6 +6,7 @@ import free.task.foodfinder.model.GeoResponse;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -19,7 +20,14 @@ public class GeoapifyService {
 	public GeoResponse getSimpleSearchResult(String city, String country) throws BaseException {
 		String url = String.format("%s?city=%s&country=%s&apiKey=%s",
 				env.getGeoapifyBaseUrl() + env.getGeoapifySimpleSearchUrl(), city, country, env.getGeoapifyApiKey());
-		return restTemplate.getForObject(url, GeoResponse.class);
+
+		GeoResponse geoResponse;
+		try {
+			geoResponse = restTemplate.getForObject(url, GeoResponse.class);
+		} catch (RestClientException e) {
+			throw new BaseException("Something bad happened while connecting to Geoapify!");
+		}
+		return geoResponse;
 	}
 
 }
