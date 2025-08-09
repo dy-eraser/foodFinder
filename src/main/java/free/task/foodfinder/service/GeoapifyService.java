@@ -54,7 +54,11 @@ public class GeoapifyService {
 
 	public GeoapifyPlaceResponse getNearbyCatering(List<Double> bbox) {
 		String url = String.format("%s?categories=catering&filter=rect:%s&limit=10&apiKey=%s",
-				env.getGeoapifyBaseUrl() + env.getGeoapifyPlaceDetailsUrl(), bbox, env.getGeoapifyApiKey());
+				env.getGeoapifyBaseUrl() + env.getGeoapifyPlaceDetailsUrl(),
+				bbox.toString()
+						.replace("[", "")
+						.replace("]", "")
+						.replace(" ", ""), env.getGeoapifyApiKey());
 
 		GeoapifyPlaceResponse geoapifyPlaceResponse;
 		try {

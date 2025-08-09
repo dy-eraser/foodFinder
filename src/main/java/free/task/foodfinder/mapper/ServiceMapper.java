@@ -28,6 +28,14 @@ public interface ServiceMapper {
 
 	List<PlaceDetail> toPlaceDetail(List<Feature> features);
 
+	@Mapping(source = "properties.name", target = "name")
+	@Mapping(source = "properties.city", target = "city")
+	@Mapping(source = "properties.country", target = "country")
+	@Mapping(source = "properties.latitude", target = "latitude")
+	@Mapping(source = "properties.longitude", target = "longitude")
+	@Mapping(source = "properties.placeId", target = "placeId")
+	PlaceDetail toPlaceDetail(Feature feature);
+
 	default PlaceDetail toPlaceDetail(GeoapifySearchResponse geoapifySearchResponse) {
 		if (geoapifySearchResponse.getResults()
 				.isEmpty()) {
