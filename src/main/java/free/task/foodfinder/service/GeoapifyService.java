@@ -39,7 +39,7 @@ public class GeoapifyService {
 
 	public GeoapifyPlaceResponse getNearbyCatering(String placeId) throws BaseException {
 		String url = String.format("%s?categories=catering&filter=place:%s&limit=10&apiKey=%s",
-				env.getGeoapifyBaseUrl() + env.getGeoapifyPlaceDetailsUrl(), placeId, limit, env.getGeoapifyApiKey());
+				env.getGeoapifyBaseUrl() + env.getGeoapifyPlaceDetailsUrl(), placeId, env.getGeoapifyApiKey());
 
 		GeoapifyPlaceResponse geoapifyPlaceResponse;
 		try {

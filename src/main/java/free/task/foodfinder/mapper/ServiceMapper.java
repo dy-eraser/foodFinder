@@ -5,6 +5,8 @@ import java.util.List;
 import free.task.foodfinder.entity.PlaceDetail;
 import free.task.foodfinder.model.GeoapifyLocationDetail;
 import free.task.foodfinder.model.GeoapifyLocationDetail.BoundingBox;
+import free.task.foodfinder.model.GeoapifyPlaceResponse;
+import free.task.foodfinder.model.GeoapifyPlaceResponse.Feature;
 import free.task.foodfinder.model.GeoapifySearchResponse;
 import free.task.foodfinder.model.PlaceDetailDto;
 import org.mapstruct.Mapper;
@@ -14,7 +16,17 @@ import org.mapstruct.Named;
 @Mapper(componentModel = "spring")
 public interface ServiceMapper {
 
-	PlaceDetailDto toPlaceDetailDto(PlaceDetail placeDetail);
+	List<PlaceDetailDto> toPlaceDetailDtoList(List<PlaceDetail> placeDetails);
+
+	default List<PlaceDetail> toPlaceDetail(GeoapifyPlaceResponse geoapifyPlaceResponse) {
+		if (geoapifyPlaceResponse.getFeatures()
+				.isEmpty()) {
+			return null;
+		}
+		return toPlaceDetail(geoapifyPlaceResponse.getFeatures());
+	}
+
+	List<PlaceDetail> toPlaceDetail(List<Feature> features);
 
 	default PlaceDetail toPlaceDetail(GeoapifySearchResponse geoapifySearchResponse) {
 		if (geoapifySearchResponse.getResults()

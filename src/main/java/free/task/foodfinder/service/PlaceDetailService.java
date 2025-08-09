@@ -1,5 +1,7 @@
 package free.task.foodfinder.service;
 
+import java.util.List;
+
 import free.task.foodfinder.entity.PlaceDetail;
 import free.task.foodfinder.exception.PlaceNotFoundException;
 import free.task.foodfinder.mapper.ServiceMapper;
@@ -34,11 +36,12 @@ public class PlaceDetailService {
 				);
 	}
 
-	public void findFoodNearby(PlaceDetail placeDetail) {
-		if (placeDetail.getBbox() != null && !placeDetail.getBbox().isEmpty()) {
-			geoapifyService.getNearbyCatering(placeDetail.getBbox());
+	public List<PlaceDetail> findFoodNearby(PlaceDetail placeDetail) {
+		if (placeDetail.getBbox() != null && !placeDetail.getBbox()
+				.isEmpty()) {
+			return mapper.toPlaceDetail(geoapifyService.getNearbyCatering(placeDetail.getBbox()));
 		} else {
-			geoapifyService.getNearbyCatering(placeDetail.getPlaceId());
+			return mapper.toPlaceDetail(geoapifyService.getNearbyCatering(placeDetail.getPlaceId()));
 		}
 	}
 

@@ -1,6 +1,7 @@
 package free.task.foodfinder.service;
 
-import free.task.foodfinder.entity.PlaceDetail;
+import java.util.List;
+
 import free.task.foodfinder.mapper.ServiceMapper;
 import free.task.foodfinder.model.PlaceDetailDto;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +16,9 @@ public class PlaceService {
 
 	private final PlaceDetailService placeDetailService;
 
-	public PlaceDetailDto getFoodNearby(String country, String city) {
-		PlaceDetail placeDetail = placeDetailService.findByCountryAndCity(country, city);
-		return serviceMapper.toPlaceDetailDto(placeDetail);
+	public List<PlaceDetailDto> getFoodNearby(String country, String city) {
+		var placeDetail = placeDetailService.findByCountryAndCity(country, city);
+		return serviceMapper.toPlaceDetailDtoList(placeDetailService.findFoodNearby(placeDetail));
 	}
 
 }
