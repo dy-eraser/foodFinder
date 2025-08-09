@@ -1,6 +1,6 @@
 package free.task.foodfinder.controller;
 
-import free.task.foodfinder.model.GeoapifySearchResponse;
+import free.task.foodfinder.model.SearchResponse;
 import free.task.foodfinder.service.PlaceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -25,7 +25,7 @@ public class PlaceController {
 	@Operation(summary = "Simple search details", description = "This method retrieves data from simple search on Geoapify")
 	@ApiResponse(responseCode = "200", description = "success")
 	@ApiResponse(responseCode = "4xx", description = "any missing data or if something goes wrong!")
-	public ResponseEntity<GeoapifySearchResponse> getPlaceDetails(@RequestParam String city, @RequestParam String country) {
+	public ResponseEntity<SearchResponse> getPlaceDetails(@RequestParam String city, @RequestParam String country) {
 		log.info("Get place details for city {} and country {}", city, country);
 		return ResponseEntity.ok(placeService.getPlaceDetails(city, country));
 	}

@@ -1,6 +1,7 @@
 package free.task.foodfinder.service;
 
-import free.task.foodfinder.model.GeoapifySearchResponse;
+import free.task.foodfinder.mapper.PlaceServiceMapper;
+import free.task.foodfinder.model.SearchResponse;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -11,8 +12,10 @@ public class PlaceService {
 
 	private final GeoapifyService geoapifyService;
 
-	public GeoapifySearchResponse getPlaceDetails(String city, String country) {
-		return geoapifyService.getSimpleSearchResult(city, country);
+	private final PlaceServiceMapper placeServiceMapper;
+
+	public SearchResponse getPlaceDetails(String city, String country) {
+		return placeServiceMapper.toSearchResponse(geoapifyService.getSimpleSearchResult(city, country));
 	}
 
 }

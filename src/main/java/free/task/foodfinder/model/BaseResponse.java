@@ -2,8 +2,10 @@ package free.task.foodfinder.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class BaseResponse {
 
@@ -13,6 +15,10 @@ public class BaseResponse {
 
 	public static BaseResponse notSuccess(String message) {
 		return new BaseResponse(message, false);
+	}
+
+	public static BaseResponse success(String message) {
+		return new BaseResponse(message, true);
 	}
 
 }
