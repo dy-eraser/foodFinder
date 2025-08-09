@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PlaceDetailRepository extends JpaRepository<PlaceDetail, Long> {
 
-	Optional<PlaceDetail> findPlaceDetailByPlaceId(String placeId);
+	Optional<PlaceDetail> findPlaceDetailByCountryAndCity(String country, String city);
 
 }

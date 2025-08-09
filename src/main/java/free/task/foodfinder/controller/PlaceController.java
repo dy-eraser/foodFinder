@@ -26,11 +26,11 @@ public class PlaceController {
 	@ApiResponse(responseCode = "200", description = "success")
 	@ApiResponse(responseCode = "4xx", description = "any missing data or if something goes wrong!")
 	public ResponseEntity<?> getFoodNearby(
-			@Parameter(example = "Tehran", description = "city name") @RequestParam("city") String city,
-			@Parameter(example = "Iran", description = "country name") @RequestParam("country") String country
+			@Parameter(example = "Iran", description = "country name") @RequestParam("country") String country,
+			@Parameter(example = "Tehran", description = "city name") @RequestParam("city") String city
 	) {
-		log.info("Searching for food nearby, city {} and country {}", city, country);
-		return ResponseEntity.ok(placeService.getFoodNearby(city, country));
+		log.info("Searching for food nearby, country {} and city {}", country, city);
+		return ResponseEntity.ok(placeService.getFoodNearby(country, city));
 	}
 
 }

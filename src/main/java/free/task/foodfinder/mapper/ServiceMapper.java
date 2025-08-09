@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public interface PlaceServiceMapper {
+public interface ServiceMapper {
 
 	@Mapping(target = "city", source = "feature.properties.city")
 	@Mapping(target = "province", source = "feature.properties.province")
@@ -19,20 +19,18 @@ public interface PlaceServiceMapper {
 	@Mapping(target = "longitude", source = "feature.properties.longitude")
 	@Mapping(target = "placeId", source = "feature.properties.placeId")
 	@Mapping(target = "bbox", source = "feature.bbox")
-	@Mapping(target = "success", constant = "true")
-	@Mapping(target = "message", constant = "SUCCESS")
-	PlaceDetailDto toPlaceDetailDto(Feature feature);
+	PlaceDetail toPlaceDetail(Feature feature);
 
-	default PlaceDetailDto toPlaceDetailDto(GeoapifySearchResponse geoapifySearchResponse) {
+	default PlaceDetail toPlaceDetail(GeoapifySearchResponse geoapifySearchResponse) {
 		if (geoapifySearchResponse == null || geoapifySearchResponse.getFeatures() == null
 				|| geoapifySearchResponse.getFeatures()
 				.isEmpty()) {
 			return null;
 		}
-		return toPlaceDetailDto(geoapifySearchResponse.getFeatures()
+		return toPlaceDetail(geoapifySearchResponse.getFeatures()
 				.get(0));
 	}
 
-	PlaceDetail toPlaceDetail(PlaceDetailDto searchResponse);
+	PlaceDetailDto toPlaceDetailDto(PlaceDetail placeDetail);
 
 }
