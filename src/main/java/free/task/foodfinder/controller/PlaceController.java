@@ -1,5 +1,6 @@
 package free.task.foodfinder.controller;
 
+import free.task.foodfinder.model.GeoResponse;
 import free.task.foodfinder.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 
@@ -17,9 +18,8 @@ public class PlaceController {
 	private final PlaceService placeService;
 
 	@GetMapping("/place-details")
-	public ResponseEntity<?> getPlaceDetails(
-			@RequestParam String city,
-			@RequestParam String country) {
-		return placeService.getPlace(city, country);
+	public ResponseEntity<GeoResponse> getPlaceDetails(@RequestParam String city, @RequestParam String country) {
+		return ResponseEntity.ok(placeService.getPlaceDetails(city, country));
 	}
+
 }
