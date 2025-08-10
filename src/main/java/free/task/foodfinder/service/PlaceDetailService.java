@@ -36,20 +36,15 @@ public class PlaceDetailService {
 				);
 	}
 
-	public List<PlaceDetail> findFoodNearby(PlaceDetail placeDetail) {
-		if (placeDetail.getBbox() != null && !placeDetail.getBbox()
-				.isEmpty()) {
-			return mapper.toPlaceDetail(geoapifyService.getNearbyCatering(placeDetail.getBbox()));
-		} else {
-			return mapper.toPlaceDetail(geoapifyService.getNearbyCatering(placeDetail.getPlaceId()));
-		}
+	public List<PlaceDetail> findAmenitiesNearby(PlaceDetail placeDetail, List<String> amenities) {
+		return mapper.toPlaceDetail(geoapifyService.getNearbyPlaces(placeDetail.getPlaceId(), amenities, 10));
 	}
 
 	private PlaceDetail save(PlaceDetail placeDetail) {
 		try {
 			return placeDetailRepository.save(placeDetail);
 		} catch (Exception exception) {
-			log.error("Exception to save placeDetail: {}", exception.getMessage());
+			log.error("Exception to save placeDetail: {} with message: {}", placeDetail, exception.getMessage());
 		}
 		return placeDetail;
 	}

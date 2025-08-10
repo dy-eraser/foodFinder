@@ -1,5 +1,7 @@
 package free.task.foodfinder.controller;
 
+import java.util.List;
+
 import free.task.foodfinder.service.PlaceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,16 +23,19 @@ public class PlaceController {
 
 	private final PlaceService placeService;
 
-	@GetMapping("/food-nearby")
+	@GetMapping("/amenities-nearby")
 	@Operation(summary = "Food search", description = "This method presents nearby restaurants from Geoapify")
 	@ApiResponse(responseCode = "200", description = "success")
 	@ApiResponse(responseCode = "4xx", description = "any missing data or if something goes wrong!")
-	public ResponseEntity<?> getFoodNearby(
+	public ResponseEntity<?> getAmenitiesNearby(
 			@Parameter(example = "Iran", description = "country name") @RequestParam("country") String country,
-			@Parameter(example = "Tehran", description = "city name") @RequestParam("city") String city
+			@Parameter(example = "Tehran", description = "city name") @RequestParam("city") String city,
+			@Parameter(example = "tourism,religion,beach,parking",
+					description = "a list to query local points of interest and amenities")
+			@RequestParam(value = "amenities", defaultValue = "catering") List<String> amenities
 	) {
-		log.info("Searching for food nearby, country {} and city {}", country, city);
-		return ResponseEntity.ok(placeService.getFoodNearby(country, city));
+		log.info("Searching for amenities nearby, country {}, city {}, amenities {}", country, city, amenities);
+		return ResponseEntity.ok(placeService.getAmenitiesNearby(country, city, amenities));
 	}
 
 }

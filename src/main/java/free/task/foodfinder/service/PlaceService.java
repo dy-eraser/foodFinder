@@ -16,9 +16,9 @@ public class PlaceService {
 
 	private final PlaceDetailService placeDetailService;
 
-	public List<PlaceDetailDto> getFoodNearby(String country, String city) {
+	public List<PlaceDetailDto> getAmenitiesNearby(String country, String city, List<String> amenities) {
 		var placeDetail = placeDetailService.findByCountryAndCity(country, city);
-		return serviceMapper.toPlaceDetailDtoList(placeDetailService.findFoodNearby(placeDetail));
+		return serviceMapper.toPlaceDetailDtoList(placeDetailService.findAmenitiesNearby(placeDetail, amenities));
 	}
 
 }

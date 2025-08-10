@@ -1,5 +1,6 @@
 package free.task.foodfinder.service;
 
+import java.net.URI;
 import java.util.List;
 
 import free.task.foodfinder.configuration.EnvironmentVariables;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Slf4j
 @Service
@@ -23,52 +25,48 @@ public class GeoapifyService {
 	private final RestTemplate restTemplate;
 
 	public GeoapifySearchResponse getSimpleSearchResult(String city, String country) throws BaseException {
-		String url = String.format("%s?city=%s&country=%s&apiKey=%s&format=json",
-				env.getGeoapifyBaseUrl() + env.getGeoapifySimpleSearchUrl(), city, country, env.getGeoapifyApiKey());
+		URI uri = UriComponentsBuilder.fromUriString(env.getGeoapifyBaseUrl())
+				.pathSegment(env.getGeoapifySimpleSearchUrl())
+				.queryParam("city", city)
+				.queryParam("country", country)
+				.queryParam("format", "json")
+				.queryParam("apiKey", env.getGeoapifyApiKey())
+				.build()
+				.toUri();
 
-		GeoapifySearchResponse geoapifySearchResponse;
+		GeoapifySearchResponse geoapifySearchResponse = null;
 		try {
 			log.info("Calling Geoapify search API for country {} and city {}", country, city);
-			geoapifySearchResponse = restTemplate.getForObject(url, GeoapifySearchResponse.class);
+			geoapifySearchResponse = restTemplate.getForObject(uri, GeoapifySearchResponse.class);
 		} catch (RestClientException exception) {
-			log.error("Geoapify exception is: {}", exception.getMessage());
-			throw new BaseException("Something bad happened while connecting to Geoapify!");
+			logAndRethrow(exception);
 		}
 		return geoapifySearchResponse;
 	}
 
-	public GeoapifyPlaceResponse getNearbyCatering(String placeId) throws BaseException {
-		String url = String.format("%s?categories=catering&filter=place:%s&limit=10&apiKey=%s",
-				env.getGeoapifyBaseUrl() + env.getGeoapifyPlaceDetailsUrl(), placeId, env.getGeoapifyApiKey());
+	public GeoapifyPlaceResponse getNearbyPlaces(String placeId, List<String> categories, int limit) throws BaseException {
+		URI uri = UriComponentsBuilder.fromUriString(env.getGeoapifyBaseUrl())
+				.pathSegment(env.getGeoapifyPlaceDetailsUrl())
+				.queryParam("categories", categories)
+				.queryParam("filter", "place:" + placeId)
+				.queryParam("limit", limit)
+				.queryParam("apiKey", env.getGeoapifyApiKey())
+				.build()
+				.toUri();
 
-		GeoapifyPlaceResponse geoapifyPlaceResponse;
+		GeoapifyPlaceResponse geoapifyPlaceResponse = null;
 		try {
 			log.info("Calling Geoapify place API for placeId {}", placeId);
-			geoapifyPlaceResponse = restTemplate.getForObject(url, GeoapifyPlaceResponse.class);
+			geoapifyPlaceResponse = restTemplate.getForObject(uri, GeoapifyPlaceResponse.class);
 		} catch (RestClientException exception) {
-			log.error("Geoapify exception is: {}", exception.getMessage());
-			throw new BaseException("Something bad happened while connecting to Geoapify!");
+			logAndRethrow(exception);
 		}
 		return geoapifyPlaceResponse;
 	}
 
-	public GeoapifyPlaceResponse getNearbyCatering(List<Double> bbox) {
-		String url = String.format("%s?categories=catering&filter=rect:%s&limit=10&apiKey=%s",
-				env.getGeoapifyBaseUrl() + env.getGeoapifyPlaceDetailsUrl(),
-				bbox.toString()
-						.replace("[", "")
-						.replace("]", "")
-						.replace(" ", ""), env.getGeoapifyApiKey());
-
-		GeoapifyPlaceResponse geoapifyPlaceResponse;
-		try {
-			log.info("Calling Geoapify place API for BoundingBox {}", bbox);
-			geoapifyPlaceResponse = restTemplate.getForObject(url, GeoapifyPlaceResponse.class);
-		} catch (RestClientException exception) {
-			log.error("Geoapify exception is: {}", exception.getMessage());
-			throw new BaseException("Something bad happened while connecting to Geoapify!");
-		}
-		return geoapifyPlaceResponse;
+	private static void logAndRethrow(RestClientException exception) {
+		log.error("Geoapify exception is: {}", exception.getMessage());
+		throw new BaseException("Something bad happened while connecting to Geoapify!");
 	}
 
 }

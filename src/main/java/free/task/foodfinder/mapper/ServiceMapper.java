@@ -37,7 +37,7 @@ public interface ServiceMapper {
 	PlaceDetail toPlaceDetail(Feature feature);
 
 	default PlaceDetail toPlaceDetail(GeoapifySearchResponse geoapifySearchResponse) {
-		if (geoapifySearchResponse.getResults()
+		if (geoapifySearchResponse.getResults() == null || geoapifySearchResponse.getResults()
 				.isEmpty()) {
 			return null;
 		}
