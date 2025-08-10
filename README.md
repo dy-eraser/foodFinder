@@ -1,5 +1,5 @@
 # Food finder app!
-### Why
+
 Initially this project meant to be a food finder to someone looking around in a city, but when I went through [Geoapify](https://www.geoapify.com/), I figured this could be more than that!
 So I let client pass in different variables such as `tourism`, `religion`, `parking` or try it by **default** which is `catering` (and apparently could find restaurants).
 ---
