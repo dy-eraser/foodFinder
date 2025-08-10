@@ -4,6 +4,7 @@ Initially this project meant to be a food finder to someone looking around in a 
 So I let client pass in different variables such as `tourism`, `religion`, `parking` or try it by **default** which is `catering` (and apparently could find restaurants).
 ---
 ### Remaining points to improve
+0. (**Authentication**) a user must pass through a login process to access application functionality.
 1. `findAmenitiesNearby` inside `PlaceDetailService` could use some caching strategy.
 2. Tests could be written for the `PlaceDetailService`.
 3. Integration tests could be added by recording responses with [WireMock](https://wiremock.org/).
