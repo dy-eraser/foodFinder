@@ -17,8 +17,4 @@ public class BaseResponse {
 		return new BaseResponse(message, false);
 	}
 
-	public static BaseResponse success(String message) {
-		return new BaseResponse(message, true);
-	}
-
 }

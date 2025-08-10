@@ -23,6 +23,8 @@ public class PlaceDetailService {
 
 	private final PlaceDetailRepository placeDetailRepository;
 
+	private static final int AMENITIES_LIMIT = 10;
+
 	@Cacheable(cacheManager = "inMemoryCacheManager", cacheNames = "places", key = "#country + '_' + #city")
 	public PlaceDetail findByCountryAndCity(String country, String city) {
 		return placeDetailRepository.findPlaceDetailByCountryAndCity(country, city)
@@ -37,7 +39,7 @@ public class PlaceDetailService {
 	}
 
 	public List<PlaceDetail> findAmenitiesNearby(PlaceDetail placeDetail, List<String> amenities) {
-		return mapper.toPlaceDetail(geoapifyService.getNearbyPlaces(placeDetail.getPlaceId(), amenities, 10));
+		return mapper.toPlaceDetail(geoapifyService.getNearbyPlaces(placeDetail.getPlaceId(), amenities, AMENITIES_LIMIT));
 	}
 
 	private PlaceDetail save(PlaceDetail placeDetail) {
