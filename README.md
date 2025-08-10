@@ -6,8 +6,7 @@ So I let client pass in different variables such as `tourism`, `religion`, `park
 ### Remaining points to improve
 0. (**Authentication**) a user must pass through a login process to access application functionality.
 1. `findAmenitiesNearby` inside `PlaceDetailService` could use some caching strategy.
-2. Tests could be written for the `PlaceDetailService`.
-3. Integration tests could be added by recording responses with [WireMock](https://wiremock.org/).
+2. Integration tests could be added by recording responses with [WireMock](https://wiremock.org/).
 ---
 ### How you can help
 Contributions are very welcome, as long as you send a merge request and of course kindly read `CONTRIBUTING.md`.

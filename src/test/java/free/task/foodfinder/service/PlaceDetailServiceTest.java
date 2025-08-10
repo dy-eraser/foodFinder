@@ -4,32 +4,31 @@ import java.util.List;
 import java.util.Optional;
 
 import free.task.foodfinder.entity.PlaceDetail;
+import free.task.foodfinder.exception.PlaceNotFoundException;
 import free.task.foodfinder.mapper.ServiceMapper;
+import free.task.foodfinder.model.GeoapifySearchResponse;
 import free.task.foodfinder.repository.PlaceDetailRepository;
 import free.task.foodfinder.util.TestConfig;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@ContextConfiguration
 @ActiveProfiles({ "test" })
 @Import({ TestConfig.class })
-@ExtendWith({ SpringExtension.class })
 class PlaceDetailServiceTest {
 
 	private AutoCloseable closeable;
@@ -69,6 +68,33 @@ class PlaceDetailServiceTest {
 		assertNotNull(result);
 		verify(mockPlaceDetailRepository).findPlaceDetailByCountryAndCity(country, city);
 		verify(mockGeoapifyService, never()).getSimpleSearchResult(anyString(), anyString());
+	}
+
+	@Test
+	void findByCityAndCountryWhenPlaceDetailNotExistsAndGeoapifyReturnsValidData() {
+		String city = "London";
+		String country = "United Kingdom";
+		PlaceDetail mockPlaceDetail = createSamplePlaceDetail(country, city);
+		when(mockPlaceDetailRepository.findPlaceDetailByCountryAndCity(country, city)).thenReturn(Optional.empty());
+		when(mockGeoapifyService.getSimpleSearchResult(city, country)).thenReturn(new GeoapifySearchResponse());
+		when(mockMapper.toPlaceDetail(any(GeoapifySearchResponse.class))).thenReturn(mockPlaceDetail);
+		when(mockPlaceDetailRepository.save(mockPlaceDetail)).thenReturn(mockPlaceDetail);
+
+		PlaceDetail result = placeDetailService.findByCountryAndCity(country, city);
+
+		assertNotNull(result);
+		verify(mockPlaceDetailRepository).save(mockPlaceDetail);
+	}
+
+	@Test
+	void findByCityAndCountryWhenPlaceDetailNotExistsAndGeoapifyReturnsNull() {
+		String city = "London";
+		String country = "United Kingdom";
+		when(mockPlaceDetailRepository.findPlaceDetailByCountryAndCity(country, city))
+				.thenReturn(Optional.empty());
+		when(mockGeoapifyService.getSimpleSearchResult(city, country)).thenReturn(null);
+
+		assertThrows(PlaceNotFoundException.class, () -> placeDetailService.findByCountryAndCity(country, city));
 	}
 
 	private PlaceDetail createSamplePlaceDetail(String country, String city) {
