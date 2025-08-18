@@ -6,6 +6,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -23,6 +24,11 @@ public class Config {
 	@Bean
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
+	}
+
+	@Bean("placesCustomKeyGenerator")
+	public KeyGenerator keyGenerator() {
+		return (target, method, params) -> params[0] + "_" + params[1];
 	}
 
 	@Profile("!test")

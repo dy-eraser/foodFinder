@@ -1,0 +1,20 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8118:8118"
+    depends_on:
+      - db
+    environment:
+      - SPRING_PROFILES_ACTIVE=postgres
+
+  db:
+    image: postgres:13.22-trixie
+    ports:
+      - "5432:5432"
+    shm_size: 128mb
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypass
+      POSTGRES_HOST_AUTH_METHOD: md5

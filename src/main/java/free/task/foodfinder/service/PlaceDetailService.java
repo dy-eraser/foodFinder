@@ -25,8 +25,9 @@ public class PlaceDetailService {
 
 	private static final int AMENITIES_LIMIT = 10;
 
-	@Cacheable(cacheManager = "inMemoryCacheManager", cacheNames = "places", key = "#country + '_' + #city")
+	@Cacheable(cacheManager = "inMemoryCacheManager", cacheNames = "places", keyGenerator = "placesCustomKeyGenerator")
 	public PlaceDetail findByCountryAndCity(String country, String city) {
+		log.info("findByCountryAndCity for country={}, city={}", country, city);
 		return placeDetailRepository.findPlaceDetailByCountryAndCity(country, city)
 				.orElseGet(() -> {
 							PlaceDetail placeDetail = mapper.toPlaceDetail(geoapifyService.getSimpleSearchResult(city, country));

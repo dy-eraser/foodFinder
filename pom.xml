@@ -29,6 +29,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<mapstruct.version>1.6.3</mapstruct.version>
+		<postgresql.version>42.7.7</postgresql.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -76,6 +77,11 @@
 		<dependency>
 			<groupId>com.github.ben-manes.caffeine</groupId>
 			<artifactId>caffeine</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${postgresql.version}</version>
 		</dependency>
 	</dependencies>
 
